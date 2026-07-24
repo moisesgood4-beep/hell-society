@@ -1,265 +1,272 @@
-# Hell Society Cyber Toolkit v2.0
-
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║   ██╗  ██╗ ██████╗ ███╗   ███╗███████╗                           ║
-║   ██║  ██║██╔═══██╗████╗ ████║██╔════╝                           ║
-║   ███████║██║   ██║██╔████╔██║███████╗                           ║
-║   ██╔══██║██║   ██║██║╚██╔╝██║╚════██║                           ║
-║   ██║  ██║╚██████╔╝██║ ╚═╝ ██║███████║                           ║
-║   ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝                           ║
-╠══════════════════════════════════════════════════════════════════╣
-║        77 Profesional Security Tools for Pentesting              ║
-║        Compatible: Linux (Debian/Ubuntu/Kali) + Termux           ║
-║                  Created by: HELL SOCIETY                        ║
-╚══════════════════════════════════════════════════════════════════╝
+⠉⠉⠉⠉⠁⠀⠀⠀⠀⠒⠂⠰⠤⢤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠻⢤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠠⠀⠐⠒⠒⠀⠀⠈⠉⠉⠉⠉⢉⣉⣉⣉⣙⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⡀⠤⠒⠒⠉⠁⠀⠀⠀⠀⠳⣤⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⠛⠛⠉⠛⠛⠶⢦⣤⡐⢀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡿⠁⠀⠀⠀⠀⠀⠀⠀⠈⠉⢳⣦⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠳⡤⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠛⠳⠶⢶⣦⠤⣄⡀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠳⣄⠉⠑⢄⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⡀⠀⠁
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⡄⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄
+
+        H A C K I N G   T O O L
+        H E L L   S O C I E T Y
 ```
 
----
+# HELL SOCIETY CYBER TOOLKIT
 
-## ADVERTENCIA LEGAL
-
-> Este toolkit fue desarrollado por la comunidad **Hell Society** exclusivamente para fines de **pentesting ético**, investigación de seguridad y educación. Los autores **no se hacen responsables** del mal uso de estas herramientas. El uso no autorizado de herramientas de seguridad contra sistemas, redes o datos sin consentimiento explícito del propietario es **ilegal** en la mayoría de jurisdicciones.
+**116 professional scripts for offensive, defensive and OSINT operations**
 
 ---
 
-## Contenido
+## WARNING
 
-| Categoría | Cantidad | Directorio |
-|-----------|----------|------------|
-| Ofensivos (Pentesting Web/Apps) | 33 | `/offensive/` |
-| Defensivos (Protección/Detección) | 30 | `/defensive/` |
-| OSINT & Doxing | 14 | `/osint/` |
-| **Total** | **77** | |
+> This toolkit was developed by the **Hell Society** community exclusively for **ethical pentesting**, security research and education. The authors **assume no liability** for any misuse. Using security tools against systems, networks or data without explicit consent of the owner is **illegal** in most jurisdictions.
 
 ---
 
-## Instalación
+## STATS
+
+| Category | Count | Directory |
+|----------|-------|-----------|
+| Offensive (Pentesting) | 34 | `/offensive/` |
+| Defensive (Protection) | 30 | `/defensive/` |
+| OSINT & Doxing | 50 | `/osint/` |
+| **TOTAL** | **116** | |
+
+---
+
+## QUICK START
 
 ### Linux (Debian/Ubuntu/Kali)
 
 ```bash
-# Clonar o extraer el toolkit
-cd cybertoolkit/
-
-# Instalar todo
+git clone https://github.com/moisesgood4-beep/hell-society.git
+cd hell-society
 chmod +x install.sh && ./install.sh
-
-# O manualmente:
-sudo apt-get update && sudo apt-get install -y python3 python3-pip git nmap whois dnsutils
-sudo pip3 install colorama requests beautifulsoup4 pillow pycryptodome scapy python-whois dnspython paramiko
-sudo apt-get install -y hydra sqlmap tcpdump sslscan
-
-# Ejecutar
 python3 launcher.py
-# O rápido:
-./run.sh
 ```
 
 ### Termux (Android)
 
 ```bash
-# Clonar o extraer el toolkit
-cd cybertoolkit/
-
-# Instalar todo automáticamente
-chmod +x termux_setup.sh && bash termux_setup.sh
-
-# O paso a paso:
-pkg update -y
-pkg install -y python python-pip git nmap whois dnsutils termux-api
-pip install colorama requests beautifulsoup4 pillow pycryptodome scapy dnspython paramiko
-pkg install -y hydra sqlmap tcpdump openssl
-
-# Ejecutar
+pkg install git
+git clone https://github.com/moisesgood4-beep/hell-society.git
+cd hell-society
+bash termux_setup.sh
 python3 launcher.py
-# O rápido:
-./run.sh
-# O desde cualquier directorio:
-~/hell-society/run
 ```
 
----
-
-## Scripts Ofensivos (Pentesting Web & Aplicaciones)
-
-| # | Herramienta | Descripción |
-|---|-------------|-------------|
-| 01 | SQL Injection Scanner | Escaneo y detección de SQLi en formularios web |
-| 02 | XSS Scanner | Detección de Cross-Site Scripting (Reflected, Stored, DOM) |
-| 03 | Directory Fuzzer | Fuzzing de directorios y archivos web |
-| 04 | Subdomain Enumeration | Enumeración de subdominios |
-| 05 | Port Scanner | Escaneo de puertos TCP/UDP |
-| 06 | Hash Cracker | Cracking de hashes (MD5, SHA, NTLM, etc.) |
-| 07 | HTTP Header Analyzer | Análisis de headers HTTP para vulnerabilidades |
-| 08 | Web Crawler | Spider web para mapeo de aplicaciones |
-| 09 | SSL/TLS Analyzer | Análisis de configuración SSL/TLS |
-| 10 | CMS Scanner | Escaneo de vulnerabilidades en WordPress, Joomla, Drupal |
-| 11 | API Scanner | Escaneo de seguridad de APIs REST |
-| 12 | Phishing Framework | Framework de phishing autorizado |
-| 13 | Reverse Shell Generator | Generador de reverse shells multiplataforma |
-| 14 | LFI/RFI Scanner | Escaneo de Local/Remote File Inclusion |
-| 15 | CSRF Scanner | Detección de Cross-Site Request Forgery |
-| 16 | IDOR Scanner | Escaneo de Insecure Direct Object References |
-| 17 | SSRF Scanner | Detección de Server-Side Request Forgery |
-| 18 | Command Injection | Detección de inyección de comandos OS |
-| 19 | Web Vuln Scanner | Escáner multi-vulnerabilidad web |
-| 20 | Password Brute Force | Fuerza bruta de contraseñas multi-protocolo |
-| 21 | Wireless Sniffer | Captura y análisis de tráfico WiFi |
-| 22 | JWT Attacker | Ataque a tokens JWT (none, weak secret) |
-| 23 | XXE Scanner | Detección de XML External Entity injection |
-| 24 | SSTI Scanner | Detección de Server-Side Template Injection |
-| 25 | Dorker | Motor de Google Dorking automatizado |
-| 26 | WebSocket Interceptor | Interceptación y manipulación de WebSocket |
-| 27 | GraphQL Explorer | Exploración y ataque a endpoints GraphQL |
-| 28 | API Fuzzer | Fuzzing de parámetros y endpoints API |
-| 29 | Session Hijacker | Robo y manipulación de sesiones web |
-| 30 | Email Spoofer | Análisis y spoofing de headers de email |
-| 31 | Web Defacement Tester | Test de vulnerabilidades de defacement |
-| 32 | Database Extractor | Extracción de DB vía SQL Injection |
-| 33 | Database Dumper | Volcado completo de bases de datos |
-
----
-
-## Scripts Defensivos (Protección & Detección)
-
-| # | Herramienta | Descripción |
-|---|-------------|-------------|
-| 01 | System Hardening | Hardening de sistema Linux |
-| 02 | Log Analyzer | Análisis de logs para amenazas |
-| 03 | Network Monitor | Monitorización de red en tiempo real |
-| 04 | Vulnerability Scanner | Escaneo de vulnerabilidades del sistema |
-| 05 | IDS/IPS Detector | Sistema de detección/prevención de intrusiones |
-| 06 | Malware Scanner | Escaneo de malware y firmas conocidas |
-| 07 | WAF Configurator | Configuración de Web Application Firewall |
-| 08 | Certificate Monitor | Monitorización de certificados SSL |
-| 09 | Brute Force Detector | Detección de ataques de fuerza bruta |
-| 10 | Traffic Analyzer | Análisis de tráfico de red |
-| 11 | File Integrity Checker | Verificación de integridad de archivos |
-| 12 | Firewall Analyzer | Análisis de reglas de firewall |
-| 13 | Password Policy Checker | Verificación de políticas de contraseñas |
-| 14 | Docker Security | Auditoría de seguridad de contenedores Docker |
-| 15 | Web App Security Scanner | Escaneo de seguridad de aplicaciones web |
-| 16 | Incident Responder | Herramienta de respuesta a incidentes |
-| 17 | Backup Validator | Validación de backups y recuperación |
-| 18 | Encryption Tool | Herramientas de cifrado/descifrado |
-| 19 | Honeypot | Despliegue de honeypots para detección |
-| 20 | Ransomware Detector | Detección de comportamiento ransomware |
-| 21 | API Security Checker | Auditoría de seguridad de APIs |
-| 22 | CVE Checker | Verificación de CVEs conocidos en el sistema |
-| 23 | Network Segmentation | Análisis de segmentación de red |
-| 24 | Zero-Day Detector | Detección de indicadores de zero-days |
-| 25 | Privilege Escalation Detector | Detección de vectores de escalada de privilegios |
-| 26 | DLP Scanner | Prevención de pérdida de datos |
-| 27 | Email Header Analyzer | Análisis de headers de email contra spoofing |
-| 28 | SSL Pinning Checker | Verificación de configuración SSL |
-| 29 | Threat Intel Feed | Integración con feeds de inteligencia de amenazas |
-| 30 | Audit Compliance | Auditoría de cumplimiento de seguridad |
-
----
-
-## Scripts OSINT & Doxing
-
-| # | Herramienta | Descripción |
-|---|-------------|-------------|
-| 01 | Email OSINT | Reconocimiento de emails (breaches, Gravatar, social) |
-| 02 | Username Recon | Búsqueda de username en 20+ plataformas |
-| 03 | IP Geolocation | Geolocalización y recon de IPs |
-| 04 | Domain Recon | Inteligencia de dominios (DNS, WHOIS, tech stack) |
-| 05 | Phone Recon | Reconocimiento de números telefónicos |
-| 06 | Social Media Scraper | Extracción de datos de redes sociales |
-| 07 | Web Archive Recon | Investigación en Wayback Machine |
-| 08 | Dork Engine | Generador de Google Dorks automatizado |
-| 09 | People Search | Búsqueda de personas y datos asociados |
-| 10 | EXIF Metadata | Extracción de metadata EXIF de imágenes |
-| 11 | IP Extractor Advanced | Extracción de IP por 10 métodos diferentes |
-| 12 | Profile Data Extractor | Extracción masiva de datos de perfiles |
-| 13 | Data Breach Finder | Búsqueda de datos en leaks/breaches |
-| 14 | Geo Tracker Advanced | Geolocalización avanzada y traceroute |
-
----
-
-## Uso de Ejemplos
+### Quick Run
 
 ```bash
-# ===== LINUX =====
-# Ofensivo - SQL Injection Scanner
-python3 offensive/01_sql_injection_scanner.py -u http://target.com/login.php -l passwords.txt
-
-# Ofensivo - Database Extractor
-python3 offensive/32_database_extractor.py -u http://target.com/page.php -p id
-
-# Ofensivo - Database Dumper
-python3 offensive/33_database_dumper.py -u http://target.com -m all
-
-# Defensivo - Log Analyzer
-python3 defensive/02_log_analyzer.py -l /var/log/auth.log
-
-# OSINT - IP Extractor (10 métodos)
-python3 osint/11_ip_extractor.py -t target_username
-
-# OSINT - Profile Extractor
-python3 osint/12_profile_data_extractor.py -u target_username
-
-# OSINT - Data Breach Finder
-python3 osint/13_data_breach_finder.py -t target@email.com
-
-# ===== TERMUX =====
-# Mismos comandos pero sin sudo:
-python3 osint/11_ip_extractor.py -t target_username
-
-# Usar run.sh para lanzar cualquier script:
-./run.sh osint/14_geo_tracker.py -t 8.8.8.8
+chmod +x run.sh && ./run.sh
 ```
 
 ---
 
-## Menú Principal
+## OFFENSIVE TOOLS (34)
+
+| # | Tool | Description |
+|---|------|-------------|
+| 01 | SQL Injection Scanner | Detect and exploit SQLi vulnerabilities |
+| 02 | XSS Scanner | Cross-site scripting detection |
+| 03 | Directory Fuzzer | Web directory enumeration |
+| 04 | Subdomain Enumeration | Subdomain discovery |
+| 05 | Port Scanner | TCP/UDP port scanning |
+| 06 | Password Hash Cracker | Hash cracking (MD5, SHA, bcrypt) |
+| 07 | HTTP Header Analyzer | Security header analysis |
+| 08 | Web Crawler/Spider | Automated web crawling |
+| 09 | SSL/TLS Analyzer | Certificate and cipher analysis |
+| 10 | CMS Vulnerability Scanner | WordPress/Joomla/Drupal vulns |
+| 11 | API Security Scanner | REST API vulnerability testing |
+| 12 | Phishing Framework | Phishing page generator |
+| 13 | Reverse Shell Generator | Reverse shell payload generator |
+| 14 | LFI/RFI Scanner | Local/Remote File Inclusion |
+| 15 | CSRF Scanner | Cross-Site Request Forgery |
+| 16 | IDOR Scanner | Insecure Direct Object Reference |
+| 17 | SSRF Scanner | Server-Side Request Forgery |
+| 18 | Command Injection Scanner | OS command injection |
+| 19 | Web Vulnerability Scanner | Multi-vulnerability web scanner |
+| 20 | Password Brute Force | Authentication brute force |
+| 21 | Wireless Sniffer | WiFi packet capture/analysis |
+| 22 | JWT Token Attacker | JWT manipulation and cracking |
+| 23 | XXE Scanner | XML External Entity injection |
+| 24 | SSTI Scanner | Server-Side Template Injection |
+| 25 | Google Dorker | Advanced Google dork search |
+| 26 | WebSocket Interceptor | WebSocket manipulation |
+| 27 | GraphQL Explorer | GraphQL endpoint exploitation |
+| 28 | API Fuzzer | API endpoint fuzzing |
+| 29 | Session Hijacker | Session token analysis |
+| 30 | Email Header Analyzer | Email spoofing detection |
+| 31 | Web Defacement Tester | Defacement vulnerability testing |
+| 32 | Database Extractor | DB extraction via SQLi |
+| 33 | Database Dumper | Database dumping tools |
+| 34 | ExitTool (BlackEye) | Social media phishing (integrated) |
+
+---
+
+## DEFENSIVE TOOLS (30)
+
+| # | Tool | Description |
+|---|------|-------------|
+| 01 | System Hardening | Linux system hardening |
+| 02 | Log Analyzer | Security log analysis |
+| 03 | Network Monitor | Real-time network monitoring |
+| 04 | Vulnerability Scanner | System vulnerability scanning |
+| 05 | IDS/IPS Detector | Intrusion detection system |
+| 06 | Malware Scanner | File malware detection |
+| 07 | WAF Configurator | Web Application Firewall setup |
+| 08 | Certificate Monitor | SSL certificate monitoring |
+| 09 | Brute Force Detector | Login attack detection |
+| 10 | Traffic Analyzer | Network traffic analysis |
+| 11 | File Integrity Checker | File system integrity monitoring |
+| 12 | Firewall Analyzer | Firewall rule analysis |
+| 13 | Password Policy Checker | Password strength auditing |
+| 14 | Docker Security | Container security scanning |
+| 15 | Web App Security Scanner | Defensive web app scanning |
+| 16 | Incident Responder | Security incident response |
+| 17 | Backup Validator | Backup integrity verification |
+| 18 | Encryption Tool | Data encryption/decryption |
+| 19 | Honeypot Deployer | Honeypot deployment |
+| 20 | Ransomware Detector | Ransomware detection |
+| 21 | API Security Checker | API security audit |
+| 22 | CVE Checker | Common vulnerabilities checker |
+| 23 | Network Segmenter | Network segmentation analyzer |
+| 24 | Zero-Day Detector | Unknown vulnerability detection |
+| 25 | Privilege Escalation Detector | PrivEsc detection |
+| 26 | DLP Scanner | Data Loss Prevention scanning |
+| 27 | Email Header Analyzer | Email security analysis |
+| 28 | SSL Pinning Checker | Mobile SSL pinning verification |
+| 29 | Threat Intel Feed | Threat intelligence aggregator |
+| 30 | Audit Compliance | Compliance auditing tool |
+
+---
+
+## OSINT & DOXING TOOLS (50)
+
+| # | Tool | Description |
+|---|------|-------------|
+| 01 | Email OSINT | Email reconnaissance |
+| 02 | Username Recon | Username enumeration |
+| 03 | IP Geolocation | IP location tracking |
+| 04 | Domain Recon | Domain information gathering |
+| 05 | Phone Recon | Phone number OSINT |
+| 06 | Social Media Scraper | Social media data extraction |
+| 07 | Web Archive Recon | Wayback Machine analysis |
+| 08 | Dork Engine | Google dork automation |
+| 09 | People Search | Public records search |
+| 10 | EXIF Metadata | Image metadata extraction |
+| 11 | IP Extractor Advanced | 10 methods to extract IPs from social media |
+| 12 | Profile Data Extractor | Mass profile data extraction |
+| 13 | Data Breach Finder | Breach database search |
+| 14 | Geo Tracker Advanced | Advanced geolocation |
+| 15 | Email to Phone | Email to Phone correlation |
+| 16 | Social Doxing Framework | Social media doxing |
+| 17 | Phone OSINT | Phone number intelligence |
+| 18 | Username Enumeration | 50+ platform search |
+| 19 | Address Geolocator | Physical address mapping |
+| 20 | Reverse Image Search | 7 methods reverse search |
+| 21 | WHOIS Deep Recon | Domain deep investigation |
+| 22 | Password Breach Check | HIBP + strength analysis |
+| 23 | WiFi Network Scanner | WiFi network discovery |
+| 24 | IP Intelligence | 6 methods IP intelligence |
+| 25 | Social Engineering Kit | Pretext and template generation |
+| 26 | Archive Recon | Web archive content recovery |
+| 27 | Correlation Engine | Multi-source data correlation |
+| 28 | Vehicle Lookup | VIN decoder + plate search |
+| 29 | Deep Web Search | Tor + Pastebin + breaches |
+| 30 | Full Doxing Toolkit | All-in-one doxing by target type |
+| 31 | MAC Address Lookup | MAC vendor identification |
+| 32 | Email Hunter | Email discovery for domains |
+| 33 | Social Media Link Finder | 45+ platform links |
+| 34 | GitHub OSINT | GitHub profile extraction |
+| 35 | LinkedIn Scraper | LinkedIn profile analysis |
+| 36 | CCTV Locator | Insecure camera finder |
+| 37 | Pastebin Monitor | Leaked data search |
+| 38 | Tor Dorker | Dark web search engine |
+| 39 | Document Leak Finder | Exposed document search |
+| 40 | Ultimate Doxing Framework | Multi-target doxing |
+| 41 | Domain Crawler | Link + email extraction |
+| 42 | Credential Stuffing Checker | Password analysis |
+| 43 | IP History | IP change tracking |
+| 44 | OSINT Framework | Central OSINT hub (20 tools) |
+| 45 | Car Plate Lookup | VIN + plate search |
+| 46 | Flight Tracker | Flight tracking OSINT |
+| 47 | Crypto Wallet Tracker | Blockchain address tracking |
+| 48 | WiFi BSSID Tracker | WiFi geolocation |
+| 49 | Business Intelligence | Corporate OSINT |
+| 50 | Mega OSINT Suite | 30+ search methods |
+
+---
+
+## DEPENDENCIES
 
 ```bash
-# Linux y Termux
-python3 launcher.py
-# O
-./run.sh
+# Linux
+pip3 install colorama requests beautifulsoup4 pillow pycryptodome scapy netifaces
+
+# Termux
+pkg install python nmap whois dnsutils openssl termux-api
+pip3 install colorama requests beautifulsoup4 pillow
 ```
 
 ---
 
-## Compatibilidad
+## STRUCTURE
 
-| Característica | Linux | Termux |
-|----------------|-------|--------|
-| Python 3 | Nativo | pkg install python |
-| colorama | pip install | pip install |
-| nmap | apt install | pkg install |
-| whois | apt install | pkg install |
-| hydra | apt install | pkg install |
-| sqlmap | apt install | pip install |
-| tcpdump | apt install | pkg install |
-| scapy | pip install | pip install |
-| sudo | Disponible | No (usa termux-sudo) |
-| /tmp/ | Disponible | ~/hell-society/data/ |
-
----
-
-## Notas Termux
-
-1. **Storage**: Ejecutar `termux-setup-storage` para acceso a archivos del teléfono
-2. **Root**: Si necesitas root, usa `tsu` en vez de `sudo`
-3. **Red**: Algunas herramientas de red necesitan root (tcpdump, nmap scan)
-4. **Python**: Usar siempre `python3` en vez de `python`
-5. **Permisos**: Los scripts ya tienen permisos de ejecución configurados
+```
+hell-society/
+├── README.md
+├── launcher.py
+├── install.sh
+├── termux_setup.sh
+├── run.sh
+├── compat_termux.py
+├── offensive/       (34 scripts + wordlists)
+├── defensive/       (30 scripts)
+├── osint/           (50 scripts)
+└── data/            (generated reports)
+```
 
 ---
 
-## Créditos
+## FEATURES
 
-**Desarrollado por la comunidad Hell Society**
-
-Todas las herramientas incluyen paneles visuales coloridos con estilo profesional/hacker.
+- **116 professional scripts** ready to use
+- **Braille ASCII art** banners on every tool
+- **Colorama** colored interfaces
+- **Linux + Termux** compatible
+- **Educational disclaimer** on every script
+- **Interactive launcher** with menu
+- **Multi-method** OSINT tools
+- **Real functionality** (not simulation)
 
 ---
 
-## Nota
+## CREDITS
 
-Este toolkit es una herramienta profesional de seguridad. Úselo de manera responsable y siempre con autorización del propietario del sistema objetivo.
+> Created by the **HELL SOCIETY** community.
+> All scripts created by the Hell Society community.
+> For educational and authorized testing purposes only.
+
+---
+
+## LEGAL NOTICE
+
+> This toolkit is provided for **educational purposes** and **authorized penetration testing** only.
+> Using these tools against systems without explicit authorization is **illegal** and punishable by law.
+> The developers and Hell Society community **assume no liability** for any misuse.
+> **You are responsible for your actions.**
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║  HELL SOCIETY - NO LIABILITY FOR MISUSE                         ║
+╚══════════════════════════════════════════════════════════════════╝
+```
