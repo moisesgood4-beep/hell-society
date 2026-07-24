@@ -1,0 +1,63 @@
+HELL SOCIETY CYBERTOOLKIT - PROGRESO
+=====================================
+
+OFENSIVOS (30):
+01 - SQL Injection Scanner ✓
+02 - XSS Scanner ✓
+03 - Directory Fuzzer ✓
+04 - Subdomain Enumerator ✓
+05 - Port Scanner ✓
+06 - Hash Cracker ✓
+07 - HTTP Header Analyzer ✓
+08 - Web Crawler ✓
+09 - SSL/TLS Analyzer ✓
+10 - CMS Scanner ✓
+11 - API Security Scanner ✓
+12 - Phishing Framework ✓
+13 - Reverse Shell Generator ✓
+14 - LFI/RFI Scanner ✓
+15 - CSRF Scanner ✓
+16 - IDOR Scanner ✓
+17 - SSRF Scanner ✓
+18 - Command Injection Scanner ✓
+19 - Multi Web Vuln Scanner ✓
+20 - Password Brute Force ✓
+21 - Wireless Sniffer ✓
+22 - JWT Token Attacker ✓
+23 - XXE Scanner ✓
+24 - SSTI Scanner ✓
+25 - Google Dorker ✓
+26 - WebSocket Interceptor ✓
+27 - GraphQL Explorer ✓
+28 - API Fuzzer ✓
+29 - Session Hijacker ✓
+30 - Email Spoofing/Header Analyzer ✓
+
+DEFENSIVOS (23/30):
+01 - System Hardening ✓
+02 - Log Analyzer ✓
+03 - Network Monitor ✓
+04 - Vulnerability Scanner ✓
+05 - IDS/IPS Detector ✓
+06 - Malware Scanner ✓
+07 - WAF Configurator ✓
+08 - Certificate Monitor ✓
+09 - Brute Force Detector ✓
+10 - Traffic Anomaly Detector ✓
+11 - File Integrity Checker ✓
+12 - Firewall Analyzer ✓
+13 - Password Policy Checker ✓
+14 - Docker Security Auditor ✓
+15 - Web App Defense Scanner ✓
+16 - Incident Responder ✓
+17 - Backup Validator ✓
+18 - Encryption Tool ✓
+19 - Honeypot ✓
+20 - Ransomware Detector ✓
+21 - API Security Checker ✓
+22 - CVE Checker ✓
+23 - Network Segmentation Auditor ✓
+24-30 - PENDIENTES
+
+OSINT/DOXING (0/10):
+PENDIENTES
