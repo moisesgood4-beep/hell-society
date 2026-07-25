@@ -1,13 +1,13 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # ============================================================
-#  HELL SOCIETY - Termux Setup Script
+#  HELL SOCIETY - Termux Setup Script v3
 #  Compatible with Android / Termux (aarch64, arm, x86_64)
 #  Created by: HELL SOCIETY Community
+#  Tested: Python 3.13 on Termux / aarch64
 # ============================================================
 
 clear
 
-# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -16,7 +16,7 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 echo -e "${RED}╔══════════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${RED}║${BOLD}  HELL SOCIETY - Termux Installer                         ${NC}${RED}║${NC}"
+echo -e "${RED}║${BOLD}  HELL SOCIETY - Termux Installer v3                      ${NC}${RED}║${NC}"
 echo -e "${RED}║${BOLD}  Created by: HELL SOCIETY Community                      ${NC}${RED}║${NC}"
 echo -e "${RED}╚══════════════════════════════════════════════════════════════════╝${NC}"
 echo ""
@@ -25,31 +25,22 @@ echo -e "${YELLOW}[i] This may take 5-10 minutes. Please wait.${NC}"
 echo ""
 
 # ============================================================
-# STEP 0: Check if running in Termux
-# ============================================================
-if [[ "$PREFIX" != *"/data/data/com.termux"* ]]; then
-    echo -e "${YELLOW}[!] This script is designed for Termux on Android${NC}"
-    echo -e "${YELLOW}[!] For Linux, use install.sh instead${NC}"
-    echo -e "${RED}[!] Proceeding anyway...${NC}"
-    sleep 2
-fi
-
-# ============================================================
 # STEP 1: UPDATE PACKAGES
 # ============================================================
-echo -e "${GREEN}[1/7] Updating package lists...${NC}"
+echo -e "${GREEN}[1/8] Updating package lists...${NC}"
 pkg update -y 2>/dev/null || apt-get update -y 2>/dev/null
+pkg upgrade -y 2>/dev/null
 echo -e "${GREEN}[+] Updated${NC}"
 echo ""
 
 # ============================================================
-# STEP 2: INSTALL BASE PACKAGES (available in Termux repos)
+# STEP 2: INSTALL BASE PACKAGES
 # ============================================================
-echo -e "${GREEN}[2/7] Installing base packages...${NC}"
+echo -e "${GREEN}[2/8] Installing base packages...${NC}"
 
-# These packages are confirmed available in Termux repos
 pkg install -y \
     python \
+    python-pip \
     git \
     nano \
     vim \
@@ -68,73 +59,123 @@ pkg install -y \
     pkg-config \
     net-tools \
     termux-exec \
-    libcrypt 2>/dev/null
+    libcrypt \
+    libffi \
+    libgmp \
+    libjpeg-turbo \
+    libpng \
+    zlib \
+    freetype \
+    libxml2 \
+    libxslt \
+    readline \
+    libsqlite \
+    ncurses 2>/dev/null
 
 echo -e "${GREEN}[+] Base packages installed${NC}"
 echo ""
 
 # ============================================================
-# STEP 3: INSTALL PYTHON NATIVE PACKAGES (via pkg)
+# STEP 3: INSTALL PYTHON NATIVE PACKAGES (via pkg - PRE-COMPILED)
 # ============================================================
-echo -e "${GREEN}[3/7] Installing Python native packages (via pkg)...${NC}"
+echo -e "${GREEN}[3/8] Installing pre-compiled Python packages...${NC}"
 
-# These are pre-compiled for Termux - no compilation needed
-pkg install -y python-cryptography 2>/dev/null && echo -e "${GREEN}[+] python-cryptography${NC}"
-pkg install -y python-numpy 2>/dev/null && echo -e "${GREEN}[+] python-numpy${NC}"
-pkg install -y python-lxml 2>/dev/null && echo -e "${GREEN}[+] python-lxml${NC}"
+# These are pre-compiled binaries - NO compilation needed
+pkg install -y python-cryptography 2>/dev/null && echo -e "    ${GREEN}[+] python-cryptography${NC}"
+pkg install -y python-numpy 2>/dev/null && echo -e "    ${GREEN}[+] python-numpy${NC}"
+pkg install -y python-lxml 2>/dev/null && echo -e "    ${GREEN}[+] python-lxml${NC}"
+pkg install -y python-pillow 2>/dev/null && echo -e "    ${GREEN}[+] python-pillow${NC}"
+pkg install -y python-pandas 2>/dev/null && echo -e "    ${GREEN}[+] python-pandas${NC}"
+pkg install -y python-scipy 2>/dev/null && echo -e "    ${GREEN}[+] python-scipy${NC}"
 
-echo -e "${GREEN}[+] Native Python packages done${NC}"
+echo -e "${GREEN}[+] Pre-compiled packages done${NC}"
 echo ""
 
 # ============================================================
-# STEP 4: INSTALL PIP PACKAGES (pure Python)
+# STEP 4: INSTALL PIP PACKAGES (NO BUILD NEEDED)
 # ============================================================
-echo -e "${GREEN}[4/7] Installing pip packages...${NC}"
+echo -e "${GREEN}[4/8] Installing pip packages...${NC}"
 
-# Set environment for Termux compilation
+# Set CFLAGS for Termux
 export CFLAGS="-I$PREFIX/include"
 export LDFLAGS="-L$PREFIX/lib"
 export CPPFLAGS="-I$PREFIX/include"
 export LD_LIBRARY_PATH="$PREFIX/lib"
 
-# Install pip packages - using --break-system-packages for newer Python
-# These are packages that work on Termux (pure Python or with native support)
+# Install pure Python packages that DON'T need compilation
 for pkg_name in \
     colorama \
     requests \
     beautifulsoup4 \
     soupsieve \
     dnspython \
-    paramiko \
-    bcrypt \
     pyasn1 \
     pyasn1-modules \
     six \
-    cffi \
     pycparser \
-    PyNaCl \
     scapy \
     netifaces \
     python-whois \
     lxml \
-    Pillow; do
+    chardet \
+    idna \
+    urllib3 \
+    certifi \
+    typing-extensions; do
 
     echo -n "    Installing ${pkg_name}... "
-    pip install --break-system-packages "${pkg_name}" 2>/dev/null
+    pip install --break-system-packages "${pkg_name}" 2>/dev/null 1>/dev/null
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}OK${NC}"
     else
-        echo -e "${YELLOW}SKIP (may need manual install)${NC}"
+        echo -e "${YELLOW}SKIP${NC}"
     fi
 done
 
-# Try pycryptodome with CFLAGS set
-echo -n "    Installing pycryptodome... "
-CFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib" pip install --break-system-packages pycryptodome 2>/dev/null
-if python3 -c "from Crypto.Cipher import AES" 2>/dev/null; then
+# Install paramiko (depends on bcrypt + pynacl)
+echo -n "    Installing paramiko... "
+pip install --break-system-packages paramiko 2>/dev/null 1>/dev/null
+if [ $? -eq 0 ]; then
     echo -e "${GREEN}OK${NC}"
 else
-    echo -e "${YELLOW}SKIP (use pkg install python-cryptography instead)${NC}"
+    echo -e "${YELLOW}SKIP (bcrypt/pynacl may fail)${NC}"
+fi
+
+# Try bcrypt separately (needs compilation)
+echo -n "    Installing bcrypt... "
+pkg install -y python-bcrypt 2>/dev/null
+if python3 -c "import bcrypt" 2>/dev/null; then
+    echo -e "${GREEN}OK (via pkg)${NC}"
+else
+    pip install --break-system-packages bcrypt 2>/dev/null 1>/dev/null
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}OK (via pip)${NC}"
+    else
+        echo -e "${YELLOW}SKIP (not critical)${NC}"
+    fi
+fi
+
+# Try pynacl separately
+echo -n "    Installing PyNaCl... "
+pip install --break-system-packages PyNaCl 2>/dev/null 1>/dev/null
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}OK${NC}"
+else
+    echo -e "${YELLOW}SKIP (not critical)${NC}"
+fi
+
+# pycryptodome
+echo -n "    Installing pycryptodome... "
+pkg install -y python-pycryptodome 2>/dev/null
+if python3 -c "from Crypto.Cipher import AES" 2>/dev/null; then
+    echo -e "${GREEN}OK (via pkg)${NC}"
+else
+    pip install --break-system-packages pycryptodome 2>/dev/null 1>/dev/null
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}OK (via pip)${NC}"
+    else
+        echo -e "${YELLOW}SKIP (use cryptography instead)${NC}"
+    fi
 fi
 
 echo ""
@@ -142,7 +183,7 @@ echo ""
 # ============================================================
 # STEP 5: INSTALL SECURITY TOOLS FROM GITHUB
 # ============================================================
-echo -e "${GREEN}[5/7] Installing security tools from GitHub...${NC}"
+echo -e "${GREEN}[5/8] Installing security tools...${NC}"
 
 cd ~
 
@@ -181,7 +222,7 @@ echo -n "    [*] sublist3r... "
 if ! command -v sublist3r &>/dev/null; then
     git clone --depth 1 https://github.com/aboul3la/Sublist3r.git ~/Sublist3r 2>/dev/null
     if [ -d ~/Sublist3r ]; then
-        pip install --break-system-packages -r ~/Sublist3r/requirements.txt 2>/dev/null || true
+        pip install --break-system-packages -r ~/Sublist3r/requirements.txt 2>/dev/null 1>/dev/null || true
         ln -sf ~/Sublist3r/sublist3r.py $PREFIX/bin/sublist3r 2>/dev/null
         chmod +x $PREFIX/bin/sublist3r 2>/dev/null
         echo -e "${GREEN}OK${NC}"
@@ -205,21 +246,26 @@ else
     echo -e "${GREEN}ALREADY INSTALLED${NC}"
 fi
 
-# Hydra (try from pkg first, then from source)
+# Hydra
 echo -n "    [*] hydra... "
 if ! command -v hydra &>/dev/null; then
+    # Try pkg first
     pkg install -y hydra 2>/dev/null
     if ! command -v hydra &>/dev/null; then
+        # Try from source
         cd /tmp
+        rm -rf thc-hydra 2>/dev/null
         git clone --depth 1 https://github.com/vanhauser-thc/thc-hydra.git 2>/dev/null
-        cd /tmp/thc-hydra 2>/dev/null
-        ./configure --prefix=$PREFIX 2>/dev/null && make -j$(nproc) 2>/dev/null && make install 2>/dev/null
+        if [ -d /tmp/thc-hydra ]; then
+            cd /tmp/thc-hydra
+            ./configure --prefix=$PREFIX 2>/dev/null && make -j$(nproc) 2>/dev/null && make install 2>/dev/null
+        fi
         cd ~
     fi
     if command -v hydra &>/dev/null; then
         echo -e "${GREEN}OK${NC}"
     else
-        echo -e "${YELLOW}SKIP (compile from source manually if needed)${NC}"
+        echo -e "${YELLOW}SKIP${NC}"
     fi
 else
     echo -e "${GREEN}ALREADY INSTALLED${NC}"
@@ -230,23 +276,18 @@ echo ""
 # ============================================================
 # STEP 6: ADD SECURITY REPO (i-Haklab)
 # ============================================================
-echo -e "${GREEN}[6/7] Adding security tools repository...${NC}"
+echo -e "${GREEN}[6/8] Adding security tools repository...${NC}"
 
 mkdir -p $PREFIX/etc/apt/sources.list.d 2>/dev/null
 
-# Download repo list
 wget -q -O $PREFIX/etc/apt/sources.list.d/ivam3-termux-packages.list \
     https://raw.githubusercontent.com/ivam3/termux-packages/gh-pages/ivam3-termux-packages.list 2>/dev/null || true
 
-# Download GPG key
 curl -fsSL "https://raw.githubusercontent.com/ivam3/termux-packages/gh-pages/dists/stable/public_key.gpg" | \
     gpg --dearmor 2>/dev/null | \
     tee "$PREFIX/etc/apt/trusted.gpg.d/ivam3.gpg" >/dev/null 2>&1 || true
 
-# Update with new repo
 apt update 2>/dev/null || true
-
-# Install tools from the repo if available
 pkg install -y nikto hashcat 2>/dev/null || true
 
 echo -e "${GREEN}[+] Security repo configured${NC}"
@@ -255,28 +296,83 @@ echo ""
 # ============================================================
 # STEP 7: SETUP WORKSPACE
 # ============================================================
-echo -e "${GREEN}[7/7] Setting up workspace...${NC}"
+echo -e "${GREEN}[7/8] Setting up workspace...${NC}"
 
-# Create directories
 mkdir -p ~/hell-society/data 2>/dev/null
 mkdir -p ~/hell-society/output 2>/dev/null
 mkdir -p ~/hell-society/reports 2>/dev/null
 mkdir -p ~/hell-society/wordlists 2>/dev/null
 
-# Copy wordlists
 if [ -d ~/SecLists ]; then
     ln -sf ~/SecLists ~/hell-society/wordlists/seclists 2>/dev/null
 fi
 
-# Setup storage access for Termux
 termux-setup-storage 2>/dev/null || true
 
-# Set permissions
 cd "$(dirname "$0")" 2>/dev/null || cd ~/hell-society 2>/dev/null
 find . -name "*.py" -exec chmod +x {} \; 2>/dev/null
 find . -name "*.sh" -exec chmod +x {} \; 2>/dev/null
 
 echo -e "${GREEN}[+] Workspace ready${NC}"
+echo ""
+
+# ============================================================
+# STEP 8: VERIFICATION
+# ============================================================
+echo -e "${GREEN}[8/8] Verifying installation...${NC}"
+echo ""
+
+echo -e "${CYAN}  ┌─────────────────────────────────────────────┐${NC}"
+echo -e "${CYAN}  │ VERIFICATION RESULTS                        │${NC}"
+echo -e "${CYAN}  └─────────────────────────────────────────────┘${NC}"
+echo ""
+
+PASS=0
+FAIL=0
+
+check_py() {
+    if python3 -c "import $1" 2>/dev/null; then
+        echo -e "  ${GREEN}[OK]${NC} $1"
+        PASS=$((PASS + 1))
+    else
+        echo -e "  ${RED}[!!]${NC} $1 MISSING"
+        FAIL=$((FAIL + 1))
+    fi
+}
+
+check_cmd() {
+    if command -v "$1" &>/dev/null; then
+        echo -e "  ${GREEN}[OK]${NC} $1"
+        PASS=$((PASS + 1))
+    else
+        echo -e "  ${RED}[!!]${NC} $1 MISSING"
+        FAIL=$((FAIL + 1))
+    fi
+}
+
+# Check Python packages
+check_py colorama
+check_py requests
+check_py bs4
+check_py scapy
+check_py paramiko
+check_py Crypto
+check_py cryptography
+check_py dns
+check_py PIL
+check_py dnspython
+check_py lxml
+
+# Check system tools
+check_cmd nmap
+check_cmd whois
+check_cmd sqlmap
+check_cmd hydra
+check_cmd openssl
+check_cmd git
+
+echo ""
+echo -e "  ${GREEN}PASSED: ${PASS} | FAILED: ${FAIL}${NC}"
 echo ""
 
 # ============================================================
@@ -290,43 +386,13 @@ echo -e "${CYAN}  How to launch:${NC}"
 echo -e "  ${YELLOW}cd ~/hell-society && python3 launcher.py${NC}"
 echo -e "  ${YELLOW}OR: ./run${NC}"
 echo ""
-echo -e "${CYAN}  Installed:${NC}"
-echo -e "  ${GREEN}[+] Python 3 + pip${NC}"
-echo -e "  ${GREEN}[+] nmap, whois, dnsutils${NC}"
-echo -e "  ${GREEN}[+] openssl, curl, wget${NC}"
-echo -e "  ${GREEN}[+] clang, make, cmake${NC}"
-echo -e "  ${GREEN}[+] sqlmap${NC}"
-echo -e "  ${GREEN}[+] whatweb${NC}"
-echo -e "  ${GREEN}[+] sublist3r${NC}"
-echo -e "  ${GREEN}[+] SecLists wordlists${NC}"
-echo -e "  ${GREEN}[+] colorama, requests, bs4${NC}"
-echo -e "  ${GREEN}[+] scapy, paramiko, dnspython${NC}"
-echo -e "  ${GREEN}[+] cryptography (via pkg)${NC}"
-echo -e "  ${GREEN}[+] pycryptodome${NC}"
+echo -e "${CYAN}  System info:${NC}"
+echo -e "  Android: $(getprop ro.build.version.release 2>/dev/null || echo 'N/A')"
+echo -e "  Termux:  $TERMUX_VERSION"
+echo -e "  Python:  $(python3 --version 2>/dev/null || echo 'N/A')"
+echo -e "  Arch:    $(uname -m)"
 echo ""
 echo -e "${RED}  HELL SOCIETY - NO LIABILITY FOR MISUSE${NC}"
 echo ""
 echo -e "${YELLOW}  Press Enter to continue...${NC}"
 read
-
-# Verify installation
-echo ""
-echo -e "${CYAN}═══════════════════════════════════════════════════════════════════${NC}"
-echo -e "${CYAN}  VERIFICATION:${NC}"
-echo -e "${CYAN}═══════════════════════════════════════════════════════════════════${NC}"
-
-python3 -c "import colorama; print('  [OK] colorama')" 2>/dev/null || echo "  [!!] colorama MISSING"
-python3 -c "import requests; print('  [OK] requests')" 2>/dev/null || echo "  [!!] requests MISSING"
-python3 -c "import bs4; print('  [OK] beautifulsoup4')" 2>/dev/null || echo "  [!!] beautifulsoup4 MISSING"
-python3 -c "import scapy; print('  [OK] scapy')" 2>/dev/null || echo "  [!!] scapy MISSING"
-python3 -c "import paramiko; print('  [OK] paramiko')" 2>/dev/null || echo "  [!!] paramiko MISSING"
-python3 -c "import Crypto; print('  [OK] pycryptodome')" 2>/dev/null || echo "  [i]  pycryptodome (use cryptography instead)"
-python3 -c "import cryptography; print('  [OK] cryptography')" 2>/dev/null || echo "  [!!] cryptography MISSING"
-python3 -c "import dns; print('  [OK] dnspython')" 2>/dev/null || echo "  [!!] dnspython MISSING"
-command -v nmap &>/dev/null && echo "  [OK] nmap" || echo "  [!!] nmap MISSING"
-command -v whois &>/dev/null && echo "  [OK] whois" || echo "  [!!] whois MISSING"
-command -v sqlmap &>/dev/null && echo "  [OK] sqlmap" || echo "  [i]  sqlmap in ~/sqlmap-dev/"
-command -v hydra &>/dev/null && echo "  [OK] hydra" || echo "  [i]  hydra not installed"
-
-echo ""
-echo -e "${GREEN}  Done! Ready to use.${NC}"
