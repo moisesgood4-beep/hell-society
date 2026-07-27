@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  HACKING TOOL - HELL SOCIETY v3                                ║
+# ║  HACKING TOOL - HELL SOCIETY v6                                ║
 # ║  Created by: HELL SOCIETY Community                              ║
-# ║  Flow: Select tool -> Use it -> 1=Again 2=Menu                 ║
 # ╚══════════════════════════════════════════════════════════════════╝
 
 import os
 import sys
-import subprocess
 import time
+import signal
 
 try:
     from colorama import init, Fore, Back, Style
@@ -30,13 +29,14 @@ R  = Fore.RED; G  = Fore.GREEN; Y  = Fore.YELLOW
 C  = Fore.CYAN; W  = Fore.WHITE
 BR = Style.BRIGHT + Fore.RED; BG = Style.BRIGHT + Fore.GREEN
 BY = Style.BRIGHT + Fore.YELLOW; BC = Style.BRIGHT + Fore.CYAN
-BW = Style.BRIGHT + Fore.WHITE; BM = Style.BRIGHT + (getattr(Fore, 'MAGENTA', '\033[35m'))
+BW = Style.BRIGHT + Fore.WHITE
 RS = Style.RESET_ALL
 
 TOOL_BASE = os.path.dirname(os.path.abspath(__file__))
+VERSION = "v6.0"
 
 # ═══════════════════════════════════════════════════════════════════
-# BANNER BRAILLE
+# BANNER BRAILLE - HELL SOCIETY
 # ═══════════════════════════════════════════════════════════════════
 BRB = f"""{R}⠉⠉⠉⠉⠁⠀⠀⠀⠀⠒⠂⠰⠤⢤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠻⢤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -55,10 +55,29 @@ BRB = f"""{R}⠉⠉⠉⠉⠁⠀⠀⠀⠀⠒⠂⠰⠤⢤⣀⡀⠀⠀⠀⠀⠀⠀�
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄{RS}"""
 
 # ═══════════════════════════════════════════════════════════════════
-# ALL 114 TOOLS - Numbered 1 to 114
+# ANDROID ICON
+# ═══════════════════════════════════════════════════════════════════
+ANDROID_ICON = f"""
+  {G}   ┌───────────────────┐{RS}
+  {G}   │  ┌─────────────┐  │{RS}
+  {G}   │  │  ┌──────┐   │  │{RS}
+  {G}   │  │  │ {Y}▓▓▓▓{G} │   │  │{RS}
+  {G}   │  │  │ {Y}▓▓▓▓{G} │   │  │{RS}
+  {G}   │  │  └──────┘   │  │{RS}
+  {G}   │  │  {G}┌────────┐  │  │{RS}
+  {G}   │  │  │{Y} HELL  {G}│  │  │{RS}
+  {G}   │  │  │{Y}SOCIETY{G}│  │  │{RS}
+  {G}   │  │  └────────┘  │  │{RS}
+  {G}   │  └─────────────┘  │{RS}
+  {G}   │   ┌─┐       ┌─┐   │{RS}
+  {G}   └───┤ ├───────┤ ├───┘{RS}
+  {G}       └─┘       └─┘{RS}"""
+
+# ═══════════════════════════════════════════════════════════════════
+# ALL 118 TOOLS
 # ═══════════════════════════════════════════════════════════════════
 ALL_TOOLS = [
-    # ── OFFENSIVE 1-34 ──
+    # ── OFFENSIVE 1-38 ──
     (1,   "SQL Injection Scanner",        "offensive/01_sql_injection_scanner.py"),
     (2,   "XSS Scanner",                  "offensive/02_xss_scanner.py"),
     (3,   "Directory Fuzzer",             "offensive/03_directory_fuzzer.py"),
@@ -96,7 +115,7 @@ ALL_TOOLS = [
     (35,  "RAT Framework (Server)",       "offensive/rat_framework/rat_server.py"),
     (36,  "RAT Framework (Client)",       "offensive/rat_framework/rat_client.py"),
     (37,  "Payload & Steganography",      "offensive/35_payload_generator.py"),
-    (38,  "Advanced Tools (Keylogger/Injector)", "offensive/36_advanced_tools.py"),
+    (38,  "Advanced Tools (Keylogger)",   "offensive/36_advanced_tools.py"),
     # ── DEFENSIVE 39-68 ──
     (39,  "System Hardening",             "defensive/01_system_hardening.py"),
     (40,  "Log Analyzer",                 "defensive/02_log_analyzer.py"),
@@ -185,200 +204,210 @@ TOTAL = len(ALL_TOOLS)
 TOOL_MAP = {t[0]: (t[1], t[2]) for t in ALL_TOOLS}
 
 # ═══════════════════════════════════════════════════════════════════
-# DISPLAY FUNCTIONS
+# STATUS CHECKS
+# ═══════════════════════════════════════════════════════════════════
+def check_tool_status(num, name, path):
+    """Check if tool file exists and is executable"""
+    full_path = os.path.join(TOOL_BASE, path)
+    if os.path.isfile(full_path):
+        return f"{G}[+]{RS}"  # Green = OK
+    else:
+        return f"{R}[X]{RS}"  # Red = Missing
+
+# ═══════════════════════════════════════════════════════════════════
+# CLEAR SCREEN
 # ═══════════════════════════════════════════════════════════════════
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def print_banner():
+# ═══════════════════════════════════════════════════════════════════
+# LOADING ANIMATION
+# ═══════════════════════════════════════════════════════════════════
+def loading_animation():
+    """Show loading bar animation"""
+    print()
+    bar_len = 30
+    for i in range(bar_len + 1):
+        filled = int(i / bar_len * bar_len)
+        bar = f"{G}{'█' * filled}{R}{'░' * (bar_len - filled)}{RS}"
+        pct = int(i / bar_len * 100)
+        sys.stdout.write(f"\r  {C}[*]{RS} Loading Hell Society Toolkit... {bar} {G}{pct}%{RS}")
+        sys.stdout.flush()
+        time.sleep(0.03)
+    print()
+    print(f"  {G}[*] Loaded {BW}{TOTAL}{RS}{G} tools successfully!{RS}")
+    print()
+
+# ═══════════════════════════════════════════════════════════════════
+# MAIN MENU DISPLAY
+# ═══════════════════════════════════════════════════════════════════
+def show_menu():
     clear()
+    
+    # Banner
     print(BRB)
     print()
-    print(f"  {BW}{Style.BRIGHT}  HACKING TOOL{RS}")
-    print(f"  {BR}{Style.BRIGHT}  HELL SOCIETY{RS}")
+    
+    # Android icon + Info
+    print(ANDROID_ICON)
     print()
-    print(f"  {W}{Back.RED} :: Disclaimer: Developers assume no liability and are not  :: {RS}")
-    print(f"  {W}{Back.RED} :: responsible for any misuse or damage caused.           :: {RS}")
-    print(f"  {W}{Back.RED} :: Only use for educational purposes!!                     :: {RS}")
+    print(f"  {BC}• WELCOME TO MY TOOLS!  {R}#ERROR#{RS}")
     print()
-    print(f"  {W}{Back.RED} :: Attacking targets without mutual consent is illegal!!   :: {RS}")
+    
+    # Tools Installer Info
+    print(f"  {G}[+] {BW}TOOLS INSTALLER{RS}")
+    print(f"  {C}    {BY}Author{RS}: {W}{Style.BRIGHT}@hellsociety{RS}")
+    print(f"  {C}    {BY}Telegram{RS}: {W}t.me/termuxhacking{RS}")
+    print(f"  {C}    {BY}Github{RS}: {W}hellsociety/hs-tools{RS}")
     print()
-    # Stats
-    print(f"  {BC}┌──────────────────────────────────────────────────┐")
-    print(f"  {BC}│  {BW}TOTAL: {BR}{TOTAL}{BW} | OFF: {BR}34{BW} | DEF: {BR}30{BW} | OSINT: {BR}50{BW}    {BC}│{RS}")
-    print(f"  {BC}└──────────────────────────────────────────────────┘")
+    
+    # Subscribe bar
+    print(f"  {G}●●●●●●{RS}")
+    print(f"  {BW}Subscribe !!  {G}HACKING CYBER ARMY{RS}")
+    print(f"  {C}[ Version: {VERSION}  ]{RS}")
     print()
-
-def print_offensive_list():
-    print(f"  {R}{Style.BRIGHT}[ OFFENSIVE TOOLS ]{RS}")
-    print(f"  {'─' * 72}")
-    for i in range(0, 34, 3):
-        line = "  "
-        for j in range(3):
-            idx = i + j
-            if idx < 34:
-                num = ALL_TOOLS[idx][0]
-                name = ALL_TOOLS[idx][1][:20]
-                num_s = f"{num:03d}"
-                line += f"{Y}[{num_s}] {R}{name}{RS}"
-                if j < 2:
-                    line += "   "
-        print(line)
+    print(f"  {Y}████████████████████████████████████████████{RS}")
     print()
-
-def print_defensive_list():
-    print(f"  {G}{Style.BRIGHT}[ DEFENSIVE TOOLS ]{RS}")
-    print(f"  {'─' * 72}")
-    for i in range(34, 64, 3):
-        line = "  "
-        for j in range(3):
-            idx = i + j
-            if idx < 64:
-                num = ALL_TOOLS[idx][0]
-                name = ALL_TOOLS[idx][1][:20]
-                num_s = f"{num:03d}"
-                line += f"{Y}[{num_s}] {G}{name}{RS}"
-                if j < 2:
-                    line += "   "
-        print(line)
+    
+    # Status header
+    print(f"  {BW}{Style.BRIGHT}  MENU TOOLS{RS}         {G}[+]{RS}    {Y}[~]{RS}    {R}[X]{RS}    {BW}{Style.BRIGHT}STATUS{RS}")
+    print(f"  {'  ' + '─' * 48}")
     print()
-
-def print_osint_list():
-    print(f"  {C}{Style.BRIGHT}[ OSINT & DOXING TOOLS ]{RS}")
-    print(f"  {'─' * 72}")
-    for i in range(64, TOTAL, 3):
-        line = "  "
-        for j in range(3):
-            idx = i + j
-            if idx < TOTAL:
-                num = ALL_TOOLS[idx][0]
-                name = ALL_TOOLS[idx][1][:20]
-                num_s = f"{num:03d}"
-                line += f"{Y}[{num_s}] {C}{name}{RS}"
-                if j < 2:
-                    line += "   "
-        print(line)
-    print()
-
-def print_main_menu():
-    print_banner()
-    print_offensive_list()
-    print_defensive_list()
-    print_osint_list()
-    print(f"  {Y}[{Style.BRIGHT}000{RS}{Y}] {BR}EXIT / QUIT{RS}")
-    print()
-    print(f"  {BC}{'═' * 72}{RS}")
-    print(f"  {BW}{Style.BRIGHT}  Enter tool number (001-{TOTAL:03d}) or 000 to exit{RS}")
-    print()
-
-# ═══════════════════════════════════════════════════════════════════
-# LAUNCH TOOL
-# ═══════════════════════════════════════════════════════════════════
-def run_tool(num, name, path):
-    """Launch tool and handle 1=repeat 2=menu"""
-    while True:
-        clear()
-        # Mini banner
-        print(BRB)
-        print()
-        print(f"  {BW}{Style.BRIGHT}  HACKING TOOL{RS}")
-        print(f"  {BR}{Style.BRIGHT}  HELL SOCIETY{RS}")
-        print()
-
-        # Tool header
-        print(f"  {Y}{Style.BRIGHT}╔═══════════════════════════════════════════════════════╗{RS}")
-        print(f"  {Y}{Style.BRIGHT}║  TOOL #{num:03d} - {name:<36s} {RS}{Y}{Style.BRIGHT}║{RS}")
-        print(f"  {Y}{Style.BRIGHT}╚═══════════════════════════════════════════════════════╝{RS}")
-        print()
-        print(f"  {C}[*] Starting tool...{RS}")
-        print(f"  {C}[*] Follow the instructions of the tool.{RS}")
-        print()
-
-        # Full path
-        full_path = os.path.join(TOOL_BASE, path)
-
-        if not os.path.isfile(full_path):
-            print(f"  {R}[!] Tool file not found: {path}{RS}")
-            print(f"  {Y}[i] Run manually: python3 {full_path}{RS}")
-            print()
-            print(f"  {Y}[1] {BW}Use this tool again{RS}")
-            print(f"  {Y}[2] {BW}Return to main menu{RS}")
-            print()
-            ch = input(f"  {G}root@hellsociety{RS}:{C}~{RS}# ").strip()
-            if ch == "1":
-                continue
+    
+    # Tools list - 2 columns
+    tools_per_page = 20
+    page = 0
+    total_pages = (TOTAL + tools_per_page - 1) // tools_per_page
+    
+    for page in range(total_pages):
+        start = page * tools_per_page
+        end = min(start + tools_per_page, TOTAL)
+        
+        for idx in range(start, end):
+            num, name, path = ALL_TOOLS[idx]
+            status = check_tool_status(num, name, path)
+            
+            # Color by category
+            if num <= 38:
+                cat_color = R  # Red = offensive
+            elif num <= 68:
+                cat_color = G  # Green = defensive
             else:
+                cat_color = C  # Cyan = OSINT
+            
+            print(f"  {Y}[{num:03d}]. {cat_color}{Style.BRIGHT}{name:<35s}{RS}  {status}")
+        
+        if page < total_pages - 1:
+            print()
+            ch = input(f"\n  {G}[+] {BW}Press ENTER for more tools...{RS}")
+            if ch == "q" or ch == "Q":
                 return
 
-        try:
-            # Run the tool
-            subprocess.run([sys.executable, full_path], cwd=TOOL_BASE)
-        except KeyboardInterrupt:
-            print(f"\n  {Y}[!] Tool interrupted by user{RS}")
-        except Exception as e:
-            print(f"\n  {R}[!] Error running tool: {e}{RS}")
-
-        # After tool finishes -> options
+# ═══════════════════════════════════════════════════════════════════
+# RUN TOOL - DIRECT EXECUTION WITH os.execvp
+# ═══════════════════════════════════════════════════════════════════
+def run_tool(num, name, path):
+    """Launch tool directly using os.execvp for full interactive support"""
+    clear()
+    
+    full_path = os.path.join(TOOL_BASE, path)
+    
+    if not os.path.isfile(full_path):
+        print(f"  {R}[X] Tool file not found: {path}{RS}")
+        print(f"  {Y}[~] Try: python3 {full_path}{RS}")
         print()
-        print(f"  {BC}{'═' * 72}{RS}")
-        print()
-        print(f"  {BW}{Style.BRIGHT}  Tool execution completed.{RS}")
-        print()
-        print(f"  {G}[1] {BW}{Style.BRIGHT}Use this tool again{RS}")
-        print(f"  {Y}[2] {BW}{Style.BRIGHT}Return to main menu{RS}")
-        print(f"  {R}[0] {BW}{Style.BRIGHT}Exit{RS}")
-        print()
-
-        ch = input(f"  {G}root@hellsociety{RS}:{C}~{RS}# ").strip()
-
-        if ch == "1":
-            continue       # Re-use same tool
-        elif ch == "0":
-            sys.exit(0)
-        else:
-            return         # Back to main menu (2 or anything else)
+        input(f"  {C}[*] Press ENTER to return to menu...{RS}")
+        return
+    
+    # Show tool banner
+    print(BRB)
+    print()
+    print(f"  {G}[+] {BW}WELCOME TO MY TOOLS!  {R}#ERROR#{RS}")
+    print()
+    print(f"  {Y}████████████████████████████████████████████{RS}")
+    print()
+    
+    # Tool header
+    print(f"  {R}[+] {BW}RUNNING TOOL #{num:03d}{RS}")
+    print(f"  {BW}  Name: {Y}{name}{RS}")
+    print(f"  {BW}  Path: {C}{path}{RS}")
+    print()
+    print(f"  {Y}[*] Starting tool now...{RS}")
+    print(f"  {Y}[*] After tool finishes, you'll be asked to continue.{RS}")
+    print()
+    print(f"  {G}╔══════════════════════════════════════════════════╗{RS}")
+    print(f"  {G}║  TOOL IS RUNNING - Use it normally              ║{RS}")
+    print(f"  {G}║  When done, come back here                       ║{RS}")
+    print(f"  {G}╚══════════════════════════════════════════════════╝{RS}")
+    print()
+    
+    try:
+        # Use os.execvp to replace current process with the tool
+        # This gives FULL interactive support (input, output, etc.)
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
+        os.execvp(sys.executable, [sys.executable, full_path])
+    except SystemExit:
+        pass
+    except Exception as e:
+        print(f"  {R}[X] Error: {e}{RS}")
+        print(f"  {Y}[~] Try running manually: python3 {full_path}{RS}")
+        input(f"  {C}[*] Press ENTER to return...{RS}")
 
 # ═══════════════════════════════════════════════════════════════════
 # MAIN LOOP
 # ═══════════════════════════════════════════════════════════════════
 def main():
+    # Loading animation
+    loading_animation()
+    time.sleep(1)
+    
     while True:
-        print_main_menu()
-
+        show_menu()
+        
+        print()
+        print(f"  {BW}{Style.BRIGHT}  Select tool number or EXIT to quit{RS}")
+        print()
+        
         try:
-            choice = input(f"  {G}root@hellsociety{RS}:{C}~{RS}# ").strip()
+            choice = input(f"  {G}[+] {RS}root@hellsociety{C}~{RS}# ").strip().upper()
         except (EOFError, KeyboardInterrupt):
-            print(f"\n  {Y}[!] Goodbye from Hell Society...{RS}")
+            print(f"\n  {R}[*] Goodbye from Hell Society...{RS}")
             sys.exit(0)
-
-        if choice == "0" or choice == "000":
+        
+        if choice == "EXIT" or choice == "0" or choice == "000" or choice == "Q":
             print()
-            print(f"  {BR}╔══════════════════════════════════════════════════════════════════╗{RS}")
-            print(f"  {BR}║  {BW}HACKING TOOL - HELL SOCIETY{RS}                             {RS}{BR}║{RS}")
-            print(f"  {BR}║  {BW}Stay dangerous. Stay anonymous.{RS}                          {RS}{BR}║{RS}")
-            print(f"  {BR}╚══════════════════════════════════════════════════════════════════╝{RS}")
+            print(f"  {R}╔═══════════════════════════════════════════════════════════╗{RS}")
+            print(f"  {R}║  {BW}HACKING TOOL - HELL SOCIETY{RS}                      {RS}{R}║{RS}")
+            print(f"  {R}║  {BW}Stay dangerous. Stay anonymous.{RS}                    {RS}{R}║{RS}")
+            print(f"  {R}╚═══════════════════════════════════════════════════════════╝{RS}")
             print()
             sys.exit(0)
-
+        
+        if choice == "UPDATE" or choice == "U":
+            print(f"  {Y}[*] Updating from GitHub...{RS}")
+            os.system("cd " + TOOL_BASE + " && git pull")
+            input(f"  {C}[*] Press ENTER to continue...{RS}")
+            continue
+        
         # Parse number
         try:
             num = int(choice)
         except ValueError:
-            print(f"  {R}[!] Invalid input. Enter a number 1-{TOTAL}{RS}")
+            print(f"  {R}[X] Invalid input. Enter a number 1-{TOTAL}{RS}")
             time.sleep(1.5)
             continue
-
+        
         if num < 1 or num > TOTAL:
-            print(f"  {R}[!] Invalid number. Enter 1-{TOTAL}{RS}")
+            print(f"  {R}[X] Invalid number. Enter 1-{TOTAL}{RS}")
             time.sleep(1.5)
             continue
-
+        
         # Get tool info
         if num in TOOL_MAP:
             name, path = TOOL_MAP[num]
             run_tool(num, name, path)
         else:
-            print(f"  {R}[!] Tool not found.{RS}")
+            print(f"  {R}[X] Tool not found{RS}")
             time.sleep(1)
 
 if __name__ == "__main__":
