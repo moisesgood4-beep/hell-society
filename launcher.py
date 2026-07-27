@@ -198,6 +198,12 @@ ALL_TOOLS = [
     (116, "WiFi BSSID Tracker",           "osint/48_wifi_bssid_tracker.py"),
     (117, "Business Intelligence",        "osint/49_business_intel.py"),
     (118, "Mega OSINT Suite",             "osint/50_mega_osint_suite.py"),
+    # ── CURP TOOLS 119-123 ──
+    (119, "CURP Generator",              "osint/51_curp_generator.py"),
+    (120, "CURP API Lookup",             "osint/52_curp_api_lookup.py"),
+    (121, "CURP Framework",              "osint/53_curp_framework.py"),
+    (122, "CURP Web Extractor",          "osint/54_curp_web_extractor.py"),
+    (123, "CURP Ultimate Toolkit",       "osint/55_curp_ultimate.py"),
 ]
 
 TOTAL = len(ALL_TOOLS)
