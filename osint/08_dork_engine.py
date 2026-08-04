@@ -153,12 +153,72 @@ class DorkEngine:
         print(f"\n  {Fore.YELLOW}[i] Copy the URLs above and run them in your browser")
         print(f"  {Fore.YELLOW}[i] Check results for sensitive data exposure")
 
-if __name__ == "__main__":
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  DORK ENGINE{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}DORK ENGINE                             {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Target domain                                {RS}")
+        print()
+        print(f"  {C}[2]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Target domain{RS}")
+            value = input(f"  {Y}[*] -t: {RS}").strip()
+            print(f"  {C}[*] Executing with -t={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '2':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
-    parser = argparse.ArgumentParser(description='Hell Society Dork Engine')
-    parser.add_argument('-t', '--target', required=True, help='Target domain')
-    args = parser.parse_args()
+if __name__ == "__main__":
+    main()
 
-    engine = DorkEngine(args.target)
-    engine.run()

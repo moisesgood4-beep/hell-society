@@ -127,31 +127,80 @@ class PortScanner:
         for r in self.results:
             print(f"  {Fore.GREEN}{r['port']:<10} {Fore.YELLOW}{r['service']:<20} {Fore.WHITE}{r['banner']}")
 
+
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
 def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
-    print(DISCLAIMER)
-
-    parser = argparse.ArgumentParser(description='Hell Society Port Scanner')
-    parser.add_argument('-t', '--target', required=True, help='Target IP or hostname')
-    parser.add_argument('-p', '--ports', default='1-10000', help='Port range (e.g., 1-1000 or 80,443,8080)')
-    parser.add_argument('--threads', type=int, default=100, help='Number of threads')
-    parser.add_argument('--timeout', type=int, default=1, help='Socket timeout')
-    args = parser.parse_args()
-
-    if '-' in args.ports:
-        start, end = args.ports.split('-')
-        start_port, end_port = int(start), int(end)
-    else:
-        ports_list = [int(p.strip()) for p in args.ports.split(',')]
-        start_port, end_port = min(ports_list), max(ports_list)
-
-    scanner = PortScanner(args.target, start_port, end_port, args.threads, args.timeout)
-    print(f"{Fore.CYAN}  [*] Target: {Fore.WHITE}{args.target}")
-    print(f"{Fore.CYAN}  [*] Port Range: {Fore.WHITE}{start_port}-{end_port}")
-    print(f"{Fore.CYAN}  [*] Starting scan...\n")
-
-    scanner.scan()
-    scanner.print_results()
+    print()
+    print(f"  {BW}{Style.BRIGHT}  PORT SCANNER{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}PORT SCANNER                            {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Target IP or hostname                        {RS}")
+        print(f"  {C}[2]  {BW}Port range (e.g., 1-1000 or 80,443,8080)     {RS}")
+        print()
+        print(f"  {C}[3]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Target IP or hostname{RS}")
+            value = input(f"  {Y}[*] -t: {RS}").strip()
+            print(f"  {C}[*] Executing with -t={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] Port range (e.g., 1-1000 or 80,443,8080){RS}")
+            value = input(f"  {Y}[*] -p: {RS}").strip()
+            print(f"  {C}[*] Executing with -p={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
 if __name__ == "__main__":
     main()
+

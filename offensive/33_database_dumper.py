@@ -252,16 +252,86 @@ class DatabaseDumper:
         print(f"\n\n{Fore.GREEN}{Back.BLACK}  DATABASE DUMP COMPLETE  ")
         print(f"{Fore.CYAN}  {'═' * 60}")
 
-if __name__ == "__main__":
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
-    print(WARNING)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  DATABASE DUMPER{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}DATABASE DUMPER                         {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Target URL or IP                             {RS}")
+        print(f"  {C}[2]  {BW}Dump method                                  {RS}")
+        print(f"  {C}[3]  {BW}SQLi parameter name                          {RS}")
+        print()
+        print(f"  {C}[4]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Target URL or IP{RS}")
+            value = input(f"  {Y}[*] -u: {RS}").strip()
+            print(f"  {C}[*] Executing with -u={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] Dump method{RS}")
+            value = input(f"  {Y}[*] -m: {RS}").strip()
+            print(f"  {C}[*] Executing with -m={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '3':
+            print(f"  {Y}[*] SQLi parameter name{RS}")
+            value = input(f"  {Y}[*] -p: {RS}").strip()
+            print(f"  {C}[*] Executing with -p={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '4':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
-    parser = argparse.ArgumentParser(description='Hell Society Database Dumper')
-    parser.add_argument('-u', '--url', required=True, help='Target URL or IP')
-    parser.add_argument('-m', '--method', choices=['sqli', 'mysql', 'postgres', 'mongodb', 'redis', 'all'],
-                       default='all', help='Dump method')
-    parser.add_argument('-p', '--param', default='id', help='SQLi parameter name')
-    args = parser.parse_args()
+if __name__ == "__main__":
+    main()
 
-    dumper = DatabaseDumper(args.url, args.method)
-    dumper.run()

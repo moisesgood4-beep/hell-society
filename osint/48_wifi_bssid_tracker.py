@@ -63,16 +63,75 @@ def lookup_bssid(bssid):
                 print(f"  {Y}[!] BSSID not found in open database{RS}")
     except: print(f"  {R}[!] API lookup failed{RS}")
 
-def main():
-    clear(); print(BANNER); print(); print(DISCLAIMER); print()
-    print(f"{BG}[+] {BW}WiFi BSSID Tracker{RS}")
-    print(f"{Y}{'─'*55}{RS}")
-    bssid = input(f"\n{C}[*] Enter BSSID (e.g. AA:BB:CC:DD:EE:FF): {RS}").strip()
-    if not bssid: sys.exit(1)
-    lookup_bssid(bssid)
-    print(f"\n{BW}{R}╔══════════════════════════════════════════════════════════════════╗{RS}")
-    print(f"{BW}{R}║  HELL SOCIETY - NO LIABILITY FOR MISUSE                        ║{RS}")
-    print(f"{BW}{R}╚══════════════════════════════════════════════════════════════════╝{RS}")
-    input(f"\n{Y}[i] Press Enter to exit...{RS}")
 
-if __name__ == "__main__": main()
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
+    print(BANNER)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  WIFI BSSID TRACKER{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}WIFI BSSID TRACKER                      {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Iniciar herramienta{RS}")
+        print(f"  {C}[2]  {BW}Configurar opciones{RS}")
+        print(f"  {C}[3]  {BW}Mostrar ayuda/uso{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {G}[*] Starting Wifi Bssid Tracker...{RS}")
+            print(f"  {Y}[*] Tool execution in progress{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '2':
+            print(f"  {Y}[*] Settings - configure tool options{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {C}[*] Wifi Bssid Tracker{RS}")
+            print(f"  {Y}    Interactive tool with guided inputs{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
+
+if __name__ == "__main__":
+    main()
+

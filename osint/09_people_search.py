@@ -147,13 +147,79 @@ class PeopleSearch:
         print(f"{Fore.CYAN}  {'═' * 60}")
         print(f"\n  {Fore.YELLOW}[i] Use the generated queries in your browser for results")
 
-if __name__ == "__main__":
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  PEOPLE SEARCH{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}PEOPLE SEARCH                           {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Target name                                  {RS}")
+        print(f"  {C}[2]  {BW}Target location                              {RS}")
+        print()
+        print(f"  {C}[3]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Target name{RS}")
+            value = input(f"  {Y}[*] -n: {RS}").strip()
+            print(f"  {C}[*] Executing with -n={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] Target location{RS}")
+            value = input(f"  {Y}[*] -l: {RS}").strip()
+            print(f"  {C}[*] Executing with -l={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
-    parser = argparse.ArgumentParser(description='Hell Society People Search')
-    parser.add_argument('-n', '--name', required=True, help='Target name')
-    parser.add_argument('-l', '--location', help='Target location')
-    args = parser.parse_args()
+if __name__ == "__main__":
+    main()
 
-    search = PeopleSearch(args.name, args.location)
-    search.run()

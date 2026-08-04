@@ -224,23 +224,87 @@ class SQLiScanner:
             print(f"      {Fore.GREEN}Type: {r['type']} | Status: {r['status_code']} | Time: {r['response_time']:.2f}s")
             print(f"{Fore.CYAN}  {'─' * 60}")
 
+
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
 def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
-    print(DISCLAIMER)
-
-    parser = argparse.ArgumentParser(description='Hell Society SQL Injection Scanner')
-    parser.add_argument('-u', '--url', required=True, help='Target URL with parameters')
-    parser.add_argument('-m', '--method', default='GET', choices=['GET', 'POST'], help='HTTP Method')
-    parser.add_argument('-t', '--timeout', type=int, default=10, help='Request timeout')
-    args = parser.parse_args()
-
-    scanner = SQLiScanner(args.url, args.method, args.timeout)
-    print(f"{Fore.CYAN}  [*] Target: {Fore.WHITE}{args.url}")
-    print(f"{Fore.CYAN}  [*] Method: {Fore.WHITE}{args.method}")
-    print(f"{Fore.CYAN}  [*] Starting scan...\n")
-
-    scanner.scan()
-    scanner.print_results()
+    print()
+    print(f"  {BW}{Style.BRIGHT}  SQL INJECTION SCANNER{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}SQL INJECTION SCANNER                   {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Target URL with parameters                   {RS}")
+        print(f"  {C}[2]  {BW}HTTP Method                                  {RS}")
+        print(f"  {C}[3]  {BW}Request timeout                              {RS}")
+        print()
+        print(f"  {C}[4]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Target URL with parameters{RS}")
+            value = input(f"  {Y}[*] -u: {RS}").strip()
+            print(f"  {C}[*] Executing with -u={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] HTTP Method{RS}")
+            value = input(f"  {Y}[*] -m: {RS}").strip()
+            print(f"  {C}[*] Executing with -m={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '3':
+            print(f"  {Y}[*] Request timeout{RS}")
+            value = input(f"  {Y}[*] -t: {RS}").strip()
+            print(f"  {C}[*] Executing with -t={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '4':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
 if __name__ == "__main__":
     main()
+

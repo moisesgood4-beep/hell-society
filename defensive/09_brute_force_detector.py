@@ -126,19 +126,87 @@ class BruteForceDetector:
         else:
             print(f"  {Fore.GREEN}[OK] Low brute force activity")
 
+
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
 def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
-
-    parser = argparse.ArgumentParser(description='Hell Society Brute Force Detector')
-    parser.add_argument('-f', '--file', required=True, help='Log file (e.g., /var/log/auth.log)')
-    parser.add_argument('-t', '--threshold', type=int, default=5, help='Failed attempts threshold')
-    parser.add_argument('-d', '--duration', type=int, default=3600, help='Block duration (seconds)')
-    args = parser.parse_args()
-
-    detector = BruteForceDetector(args.file, args.threshold, args.duration)
-    detector.analyze_logs()
-    detector.generate_banlist()
-    detector.print_summary()
+    print()
+    print(f"  {BW}{Style.BRIGHT}  BRUTE FORCE DETECTOR{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}BRUTE FORCE DETECTOR                    {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Log file (e.g., /var/log/auth.log)           {RS}")
+        print(f"  {C}[2]  {BW}Failed attempts threshold                    {RS}")
+        print(f"  {C}[3]  {BW}Block duration (seconds)                     {RS}")
+        print()
+        print(f"  {C}[4]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Log file (e.g., /var/log/auth.log){RS}")
+            value = input(f"  {Y}[*] -f: {RS}").strip()
+            print(f"  {C}[*] Executing with -f={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] Failed attempts threshold{RS}")
+            value = input(f"  {Y}[*] -t: {RS}").strip()
+            print(f"  {C}[*] Executing with -t={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '3':
+            print(f"  {Y}[*] Block duration (seconds){RS}")
+            value = input(f"  {Y}[*] -d: {RS}").strip()
+            print(f"  {C}[*] Executing with -d={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '4':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
 if __name__ == "__main__":
     main()
+

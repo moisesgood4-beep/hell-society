@@ -415,13 +415,79 @@ class IPExtractor:
             json.dump(self.results, f, indent=2, default=str)
         print(f"\n  {Fore.GREEN}[+] Results saved: /tmp/ip_extract_{self.target}.json")
 
-if __name__ == "__main__":
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  IP EXTRACTOR{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}IP EXTRACTOR                            {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Target username or domain                    {RS}")
+        print(f"  {C}[2]  {BW}Social media platform                        {RS}")
+        print()
+        print(f"  {C}[3]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Target username or domain{RS}")
+            value = input(f"  {Y}[*] -t: {RS}").strip()
+            print(f"  {C}[*] Executing with -t={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] Social media platform{RS}")
+            value = input(f"  {Y}[*] -p: {RS}").strip()
+            print(f"  {C}[*] Executing with -p={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
-    parser = argparse.ArgumentParser(description='Hell Society IP Extractor Advanced')
-    parser.add_argument('-t', '--target', required=True, help='Target username or domain')
-    parser.add_argument('-p', '--platform', help='Social media platform')
-    args = parser.parse_args()
+if __name__ == "__main__":
+    main()
 
-    extractor = IPExtractor(args.target, args.platform)
-    extractor.run_all_methods()

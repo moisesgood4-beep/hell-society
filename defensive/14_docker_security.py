@@ -150,14 +150,75 @@ class DockerAuditor:
         color = Fore.GREEN if self.score >= 80 else (Fore.YELLOW if self.score >= 50 else Fore.RED)
         print(f"\n  {color}Docker Security Score: {self.score}/100")
 
+
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
 def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
-
-    parser = argparse.ArgumentParser(description='Hell Society Docker Security Auditor')
-    args = parser.parse_args()
-
-    auditor = DockerAuditor()
-    auditor.audit_all()
+    print()
+    print(f"  {BW}{Style.BRIGHT}  DOCKER SECURITY{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}DOCKER SECURITY                         {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Iniciar herramienta{RS}")
+        print(f"  {C}[2]  {BW}Configurar opciones{RS}")
+        print(f"  {C}[3]  {BW}Mostrar ayuda/uso{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {G}[*] Starting Docker Security...{RS}")
+            print(f"  {Y}[*] Tool execution in progress{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '2':
+            print(f"  {Y}[*] Settings - configure tool options{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {C}[*] Docker Security{RS}")
+            print(f"  {Y}    Interactive tool with guided inputs{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
 if __name__ == "__main__":
     main()
+

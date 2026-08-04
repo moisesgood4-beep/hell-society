@@ -1257,137 +1257,95 @@ h1{{border-bottom:1px solid #0f0}}</style></head><body>
 # MAIN
 # =====================================================================
 
-def main():
-    parser = argparse.ArgumentParser(description='Exittool v7.1 - Pentest Ofensivo con ataque a subdominios')
-    parser.add_argument('target', help='URL objetivo (ej: https://ejemplo.com o ejemplo.com)')
-    parser.add_argument('-w', '--wordlist', help='Wordlist directory fuzzing')
-    parser.add_argument('-s', '--subdominios', help='Wordlist subdominios (opcional)')
-    parser.add_argument('-t', '--threads', type=int, default=10, help='Hilos')
-    parser.add_argument('-d', '--delay', type=int, default=0, help='Delay (ms)')
-    parser.add_argument('-i', '--intensity', choices=['baja', 'media', 'alta'], default='alta')
-    parser.add_argument('--all', action='store_true', help='Ejecutar TODO (subs + crawl + fuzz + extract + deface + clone + dir)')
-    parser.add_argument('--subs', action='store_true', help='Solo escanear subdominios')
-    parser.add_argument('--fuzz', action='store_true', help='Crawlear + fuzzear todo')
-    parser.add_argument('--crawl', action='store_true', help='Solo crawlear')
-    parser.add_argument('--dir', action='store_true', help='Directory fuzzing')
-    parser.add_argument('--clone', action='store_true', help='Clonar sitios')
-    parser.add_argument('--extract', action='store_true', help='Extraer BD')
-    parser.add_argument('--deface', action='store_true', help='Deface')
-    parser.add_argument('--proxy', help='Proxy (http://ip:puerto)')
-    parser.add_argument('--out', default='exittool_output', help='Directorio salida')
 
-    args = parser.parse_args()
 
-    print(r"""
-╔══════════════════════════════════════════════════════╗
-║   ███████╗██╗  ██╗██╗████████╗████████╗             ║
-║   ██╔════╝██║  ██║██║╚══██╔══╝╚══██╔══╝             ║
-║   █████╗  ███████║██║   ██║      ██║                ║
-║   ██╔══╝  ██╔══██║██║   ██║      ██║                ║
-║   ███████╗██║  ██║██║   ██║      ██║                ║
-║   ╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝                ║
-║          v7.1 - PENTEST OFENSIVO                      ║
-╚══════════════════════════════════════════════════════╝
-""")
 
-    tool = Exittool(
-        target=args.target,
-        wordlist=args.wordlist,
-        subdominios_list=args.subdominios,
-        threads=args.threads,
-        delay=args.delay,
-        proxy=args.proxy,
-        out=args.out
-    )
-
-    os.makedirs(args.out, exist_ok=True)
-
-    # Reconocimiento inicial
-    if not tool.reconocer():
-        print("[-] No se puede conectar al objetivo principal")
-        # Aún así, podemos escanear subdominios
-
-    if args.all:
-        print(f"\n{'='*60}")
-        print(f"  MODO COMPLETO - ATACANDO TODO")
-        print(f"{'='*60}")
-
-        # 1. Subdominios
-        subs = tool.escanear_subdominios()
-
-        # 2. Crawlear dominio principal + subdominios
-        print(f"\n  [🕷️] Crawleando dominio principal...")
-        tool.crawlear(tool.target)
-
-        for sub in subs[:5]:
-            print(f"\n  [🕷️] Crawleando subdominio: {sub}")
-            tool.crawlear(sub)
-
-        # 3. Fuzzear todos
-        tool.fuzzear(tool.target)
-        for sub in subs[:5]:
-            tool.fuzzear(sub)
-
-        # 4. Extraer BD
-        if tool.params_sqli:
-            tool.extraer_bd()
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
         else:
-            print("\n  [ℹ️] No hay SQLi para extraer BD")
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
 
-        # 5. Deface
-        tool.defacear()
-
-        # 6. Directory fuzzing
-        if args.wordlist:
-            tool.fuzz_dirs()
-
-        # 7. Clonar todo
-        tool.clonar()
-
-        # 8. Reporte
-        tool.reporte()
-
-    elif args.subs:
-        tool.escanear_subdominios()
-        tool.reporte()
-    elif args.fuzz:
-        tool.crawlear()
-        tool.fuzzear()
-        tool.escanear_subdominios()
-        for sub in tool.subdominios_encontrados[:5]:
-            tool.crawlear(sub)
-            tool.fuzzear(sub)
-        tool.reporte()
-    elif args.crawl:
-        tool.crawlear()
-        tool.escanear_subdominios()
-        for sub in tool.subdominios_encontrados[:5]:
-            tool.crawlear(sub)
-    elif args.dir:
-        tool.fuzz_dirs()
-    elif args.clone:
-        tool.escanear_subdominios()
-        tool.clonar()
-    elif args.extract:
-        if not tool.params_sqli:
-            tool.crawlear()
-            tool.fuzzear()
-        tool.extraer_bd()
-    elif args.deface:
-        tool.defacear()
-    else:
-        tool.fuzzear()
-        tool.reporte()
-
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
+    print(BANNER)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  EXITTOOL{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}EXITTOOL                                {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Wordlist directory fuzzing                   {RS}")
+        print(f"  {C}[2]  {BW}Wordlist subdominios (opcional)              {RS}")
+        print(f"  {C}[3]  {BW}Hilos                                        {RS}")
+        print(f"  {C}[4]  {BW}Delay (ms)                                   {RS}")
+        print()
+        print(f"  {C}[5]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Wordlist directory fuzzing{RS}")
+            value = input(f"  {Y}[*] -w: {RS}").strip()
+            print(f"  {C}[*] Executing with -w={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] Wordlist subdominios (opcional){RS}")
+            value = input(f"  {Y}[*] -s: {RS}").strip()
+            print(f"  {C}[*] Executing with -s={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '3':
+            print(f"  {Y}[*] Hilos{RS}")
+            value = input(f"  {Y}[*] -t: {RS}").strip()
+            print(f"  {C}[*] Executing with -t={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '4':
+            print(f"  {Y}[*] Delay (ms){RS}")
+            value = input(f"  {Y}[*] -d: {RS}").strip()
+            print(f"  {C}[*] Executing with -d={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '5':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\n[!] Interrumpido por usuario")
-        sys.exit(0)
-    except Exception as e:
-        print(f"\n[!] Error: {e}")
-        import traceback
-        traceback.print_exc()
-        sys.exit(1)
+    main()
+

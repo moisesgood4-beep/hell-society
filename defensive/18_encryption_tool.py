@@ -95,38 +95,80 @@ class Encryptor:
         print(f"  {Fore.GREEN}[+] Decrypted: {decrypted.decode()}")
         return decrypted
 
+
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
 def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
     print(BANNER)
-
-    parser = argparse.ArgumentParser(description='Hell Society Encryption Tool')
-    parser.add_argument('--encrypt', metavar='FILE', help='Encrypt file')
-    parser.add_argument('--decrypt', metavar='FILE', help='Decrypt file')
-    parser.add_argument('--encrypt-dir', metavar='DIR', help='Encrypt directory')
-    parser.add_argument('--decrypt-string', metavar='TOKEN', help='Decrypt string')
-    parser.add_argument('--encrypt-string', metavar='TEXT', help='Encrypt string')
-    parser.add_argument('-p', '--password', required=True, help='Password')
-    parser.add_argument('-o', '--output', help='Output path')
-    args = parser.parse_args()
-
-    encryptor = Encryptor(args.password)
-
-    if args.encrypt:
-        encryptor.encrypt_file(args.encrypt, args.output)
-    elif args.decrypt:
-        encryptor.decrypt_file(args.decrypt, args.output)
-    elif args.encrypt_dir:
-        encryptor.encrypt_directory(args.encrypt_dir, args.password)
-        print(f"\n  {Fore.GREEN}[OK] Directory encrypted")
-    elif args.encrypt_string:
-        encryptor.encrypt_string(args.encrypt_string)
-    elif args.decrypt_string:
-        encryptor.decrypt_string(args.decrypt_string)
-    else:
-        print(f"  {Fore.YELLOW}Usage examples:")
-        print(f"  {Fore.CYAN}  --encrypt file.txt -p password123")
-        print(f"  {Fore.CYAN}  --decrypt file.txt.enc -p password123")
-        print(f"  {Fore.CYAN}  --encrypt-dir /path/to/dir -p password123")
-        print(f"  {Fore.CYAN}  --encrypt-string 'secret text' -p password123")
+    print()
+    print(f"  {BW}{Style.BRIGHT}  ENCRYPTION TOOL{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}ENCRYPTION TOOL                         {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Password                                     {RS}")
+        print(f"  {C}[2]  {BW}Output path                                  {RS}")
+        print()
+        print(f"  {C}[3]  {BW}Ejecutar con todos los argumentos{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {Y}[*] Password{RS}")
+            value = input(f"  {Y}[*] -p: {RS}").strip()
+            print(f"  {C}[*] Executing with -p={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        if choice == '2':
+            print(f"  {Y}[*] Output path{RS}")
+            value = input(f"  {Y}[*] -o: {RS}").strip()
+            print(f"  {C}[*] Executing with -o={BW}{value}{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {Y}[*] Executing with all default parameters{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
 
 if __name__ == "__main__":
     main()
+

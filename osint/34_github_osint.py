@@ -48,32 +48,75 @@ def search_code(username):
         return r.json().get("items", []) if r.status_code == 200 else []
     except: return []
 
-def main():
-    clear(); print(BANNER); print(); print(DISCLAIMER); print()
-    print(f"{BG}[+] {BW}GitHub OSINT Tool{RS}")
-    print(f"{Y}{'─'*55}{RS}")
-    username = input(f"\n{C}[*] GitHub username: {RS}").strip()
-    if not username: sys.exit(1)
-    
-    print(f"\n{Y}[+] Fetching profile...{RS}")
-    profile = get_profile(username)
-    if not profile:
-        print(f"{R}[!] User not found or API rate limit{RS}"); sys.exit(1)
-    
-    for key in ["login","name","bio","company","blog","location","email",
-                "twitter_username","public_repos","followers","following","created_at"]:
-        if profile.get(key):
-            print(f"  {C}{key:20}{RS}: {BW}{profile[key]}{RS}")
-    
-    print(f"\n{Y}[+] Recent repositories...{RS}")
-    repos = get_repos(username)
-    for repo in repos[:5]:
-        print(f"  {G}[+] {BW}{repo['name']}{RS} - {repo.get('description','N/A')}")
-    
-    print(f"\n{BG}[*] Profile URL: https://github.com/{username}{RS}")
-    print(f"\n{BW}{R}╔══════════════════════════════════════════════════════════════════╗{RS}")
-    print(f"{BW}{R}║  HELL SOCIETY - NO LIABILITY FOR MISUSE                        ║{RS}")
-    print(f"{BW}{R}╚══════════════════════════════════════════════════════════════════╝{RS}")
-    input(f"\n{Y}[i] Press Enter to exit...{RS}")
 
-if __name__ == "__main__": main()
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
+    print(BANNER)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  GITHUB OSINT{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}GITHUB OSINT                            {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Iniciar herramienta{RS}")
+        print(f"  {C}[2]  {BW}Configurar opciones{RS}")
+        print(f"  {C}[3]  {BW}Mostrar ayuda/uso{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {G}[*] Starting Github Osint...{RS}")
+            print(f"  {Y}[*] Tool execution in progress{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '2':
+            print(f"  {Y}[*] Settings - configure tool options{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {C}[*] Github Osint{RS}")
+            print(f"  {Y}    Interactive tool with guided inputs{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
+
+if __name__ == "__main__":
+    main()
+

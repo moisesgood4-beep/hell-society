@@ -33,7 +33,7 @@ BW = Style.BRIGHT + Fore.WHITE
 RS = Style.RESET_ALL
 
 TOOL_BASE = os.path.dirname(os.path.abspath(__file__))
-VERSION = "v6.0"
+VERSION = "v7.0"
 
 # ═══════════════════════════════════════════════════════════════════
 # BANNER BRAILLE - HELL SOCIETY
@@ -74,7 +74,7 @@ ANDROID_ICON = f"""
   {G}       └─┘       └─┘{RS}"""
 
 # ═══════════════════════════════════════════════════════════════════
-# ALL 118 TOOLS
+# ALL 123 TOOLS
 # ═══════════════════════════════════════════════════════════════════
 ALL_TOOLS = [
     # ── OFFENSIVE 1-38 ──
@@ -257,7 +257,7 @@ def show_menu():
     # Android icon + Info
     print(ANDROID_ICON)
     print()
-    print(f"  {BC}• WELCOME TO MY TOOLS!  {R}#ERROR#{RS}")
+    print(f"  {BC}  HELL SOCIETY CYBERTOOLKIT{RS}  {G}[ {BW}{TOTAL} Tools{G} ]{RS}")
     print()
     
     # Tools Installer Info
@@ -313,7 +313,7 @@ def show_menu():
 # RUN TOOL - DIRECT EXECUTION WITH os.execvp
 # ═══════════════════════════════════════════════════════════════════
 def run_tool(num, name, path):
-    """Launch tool directly using os.execvp for full interactive support"""
+    """Launch tool using subprocess for full interactive support"""
     clear()
     
     full_path = os.path.join(TOOL_BASE, path)
@@ -325,39 +325,55 @@ def run_tool(num, name, path):
         input(f"  {C}[*] Press ENTER to return to menu...{RS}")
         return
     
-    # Show tool banner
+    # Tool header
     print(BRB)
     print()
-    print(f"  {G}[+] {BW}WELCOME TO MY TOOLS!  {R}#ERROR#{RS}")
+    print(f"  {G}[+] {BW}HELL SOCIETY CYBERTOOLKIT{RS}")
     print()
-    print(f"  {Y}████████████████████████████████████████████{RS}")
-    print()
-    
-    # Tool header
     print(f"  {R}[+] {BW}RUNNING TOOL #{num:03d}{RS}")
     print(f"  {BW}  Name: {Y}{name}{RS}")
     print(f"  {BW}  Path: {C}{path}{RS}")
     print()
-    print(f"  {Y}[*] Starting tool now...{RS}")
-    print(f"  {Y}[*] After tool finishes, you'll be asked to continue.{RS}")
+    print(f"  {Y}[*] Starting tool...{RS}")
+    print(f"  {Y}[*] When done, choose option 0 to exit and return here.{RS}")
     print()
     print(f"  {G}╔══════════════════════════════════════════════════╗{RS}")
-    print(f"  {G}║  TOOL IS RUNNING - Use it normally              ║{RS}")
-    print(f"  {G}║  When done, come back here                       ║{RS}")
+    print(f"  {G}║  TOOL IS RUNNING - Interact with it normally    ║{RS}")
     print(f"  {G}╚══════════════════════════════════════════════════╝{RS}")
     print()
+    time.sleep(1)
     
     try:
-        # Use os.execvp to replace current process with the tool
-        # This gives FULL interactive support (input, output, etc.)
+        # Restore default signal handlers so the tool handles Ctrl+C
         signal.signal(signal.SIGINT, signal.SIG_DFL)
-        os.execvp(sys.executable, [sys.executable, full_path])
+        
+        # Run tool with subprocess, inheriting stdin/stdout/stderr
+        import subprocess
+        proc = subprocess.run(
+            [sys.executable, full_path],
+            stdin=None,
+            stdout=None,
+            stderr=None,
+            cwd=TOOL_BASE
+        )
+        
+        # Restore our signal handler
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
+        
+    except KeyboardInterrupt:
+        pass
     except SystemExit:
         pass
     except Exception as e:
-        print(f"  {R}[X] Error: {e}{RS}")
+        print(f"  {R}[X] Error running tool: {e}{RS}")
         print(f"  {Y}[~] Try running manually: python3 {full_path}{RS}")
         input(f"  {C}[*] Press ENTER to return...{RS}")
+        return
+    
+    # Wait for user to press ENTER to return to menu
+    print()
+    print(f"  {G}[+] {BW}Tool session ended.{RS}")
+    input(f"  {C}[*] Press ENTER to return to menu...{RS}")
 
 # ═══════════════════════════════════════════════════════════════════
 # MAIN LOOP

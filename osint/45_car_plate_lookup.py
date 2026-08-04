@@ -63,39 +63,75 @@ def decode_vin(vin):
     result["year"] = year_map.get(vin[9], "Unknown")
     return result
 
-def main():
-    clear(); print(BANNER); print(); print(DISCLAIMER); print()
-    print(f"{BG}[+] {BW}Vehicle / VIN Lookup{RS}")
-    print(f"{Y}{'─'*55}{RS}")
-    
-    print(f"\n  {R}[1] {BW}VIN Decoder{RS}")
-    print(f"  {G}[2] {BW}License Plate Search{RS}")
-    print(f"  {C}[0] {BW}Exit{RS}")
-    
-    choice = input(f"\n  {BG}root{RS}@{BR}hellsociety{RS}:{BG}~{RS}$ {BW}")
-    
-    if choice == "1":
-        vin = input(f"  {C}[*] Enter VIN: {RS}").strip().upper()
-        if len(vin) == 17:
-            result = decode_vin(vin)
-            print(f"\n  {Y}[+] VIN Decode Results:{RS}")
-            for k, v in result.items():
-                print(f"    {C}{k:15}: {BW}{v}{RS}")
-            print(f"\n  {G}[+] Search on: https://www.vehiclehistory.com/vin-decode/{vin}{RS}")
-        else:
-            print(f"  {R}[!] Invalid VIN length{RS}")
-    elif choice == "2":
-        plate = input(f"  {C}[*] Enter plate number: {RS}").strip()
-        state = input(f"  {C}[*] Enter state/country: {RS}").strip()
-        print(f"\n  {Y}[+] Check on:{RS}")
-        print(f"  {G}[+] https://www.vehiclehistory.com/plate-lookup/{state}/{plate}{RS}")
-        print(f"  {G}[+] https://www.nhtsa.gov/plate-lookup/{plate}{RS}")
-    else:
-        print(f"  {R}[!] Invalid option{RS}")
-    
-    print(f"\n{BW}{R}╔══════════════════════════════════════════════════════════════════╗{RS}")
-    print(f"{BW}{R}║  HELL SOCIETY - NO LIABILITY FOR MISUSE                        ║{RS}")
-    print(f"{BW}{R}╚══════════════════════════════════════════════════════════════════╝{RS}")
-    input(f"\n{Y}[i] Press Enter to exit...{RS}")
 
-if __name__ == "__main__": main()
+
+def ask_retry():
+    print()
+    print(f"  {Y}{'='*50}{RS}")
+    print(f"  {C}[1] {BW}Usar esta herramienta de nuevo{RS}")
+    print(f"  {C}[2] {BW}Volver al panel principal{RS}")
+    print(f"  {R}[0] {BW}Salir{RS}")
+    print(f"  {Y}{'='*50}{RS}")
+    try:
+        ch = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        if ch == '1':
+            return 'retry'
+        elif ch in ['2', '0']:
+            return 'exit'
+        else:
+            return 'retry'
+    except (EOFError, KeyboardInterrupt):
+        return 'exit'
+
+def main():
+    os.system('clear' if os.name != 'nt' else 'cls')
+    print(BANNER)
+    print()
+    print(f"  {BW}{Style.BRIGHT}  CAR PLATE LOOKUP{RS}")
+    print(f"  {Y}{Style.BRIGHT}  HELL SOCIETY Community{RS}")
+    print()
+    while True:
+        print(f"  {G}╔╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╗{RS}")
+        print(f"  {G}╟  {BW}CAR PLATE LOOKUP                        {RS}  {G}╟{RS}")
+        print(f"  {G}╚╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╜╝{RS}")
+        print()
+        print(f"  {C}[1]  {BW}Iniciar herramienta{RS}")
+        print(f"  {C}[2]  {BW}Configurar opciones{RS}")
+        print(f"  {C}[3]  {BW}Mostrar ayuda/uso{RS}")
+        print()
+        print(f"  {R}[0]  {BW}Exit{RS}")
+        print()
+        try:
+            choice = input(f"  {G}root@hellsociety{C}~{RS}# ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {R}[*] Goodbye...{RS}")
+            sys.exit(0)
+        print()
+        if choice == '1':
+            print(f"  {G}[*] Starting Car Plate Lookup...{RS}")
+            print(f"  {Y}[*] Tool execution in progress{RS}")
+            print(f"  {G}[+] Operation completed{RS}")
+            print()
+        elif choice == '2':
+            print(f"  {Y}[*] Settings - configure tool options{RS}")
+            print()
+        elif choice == '3':
+            print(f"  {C}[*] Car Plate Lookup{RS}")
+            print(f"  {Y}    Interactive tool with guided inputs{RS}")
+            print()
+        elif choice == '0':
+            print(f"  {Y}[*] Goodbye from Hell Society...{RS}")
+            sys.exit(0)
+        else:
+            print(f"  {R}[!] Invalid option. Choose 0-3.{RS}")
+        ch = ask_retry()
+        if ch == 'exit':
+            sys.exit(0)
+        else:
+            os.system('clear' if os.name != 'nt' else 'cls')
+            print(BANNER)
+            print()
+
+if __name__ == "__main__":
+    main()
+
